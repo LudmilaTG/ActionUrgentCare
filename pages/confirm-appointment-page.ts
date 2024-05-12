@@ -1,7 +1,6 @@
 import { Page, expect } from "@playwright/test";
 
 export class ConfirmAppoitmentPage {
-
     private readonly frameLocator = this.page.frameLocator('xpath=//*[@width="100%"]');
     private readonly createNewAccountButton = this.frameLocator.getByText('Create new account', { exact: true });
     private readonly timeSlotText = this.frameLocator.getByText('Time').locator('xpath=//following-sibling::*[1]');
@@ -26,7 +25,6 @@ export class ConfirmAppoitmentPage {
         const dateText = (await this.daySlotText.textContent())?.replace('.', '').replace('.', '');
         await expect(dateText).toBe(day);
     }
-
 }
 
 export default ConfirmAppoitmentPage;

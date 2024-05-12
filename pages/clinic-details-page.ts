@@ -2,19 +2,16 @@ import { Page, expect } from "@playwright/test";
 import { wait } from "../utils/baseFunctions";
 
 export class ClinicDetailsPage {
-
-
     private readonly clinicNameText = this.page.locator("xpath=//*[contains(@class,'ClinicHeader_leftSide__')]//h1");
     private readonly bookAppoinmentWidget = this.page.locator('#appointments-widget');
     private readonly allFreeSlots = this.bookAppoinmentWidget.getByText(/am$|pm$/);
     private readonly selectButton = this.bookAppoinmentWidget.getByText("Select", { exact: true });
     private readonly continueButton = this.bookAppoinmentWidget.getByText("Continue", { exact: true });
     private readonly coughButton = this.bookAppoinmentWidget.getByText("Cough", { exact: true });
-
-    // private readonly sss = this.bookAppoinmentWidget.getByText('Next', { exact: true });
     private readonly commonDateText = this.bookAppoinmentWidget.locator('xpath=//*[contains(text(),"Next")]/../../..//*[contains(@class,"MuiGrid-direction-xs-column")]/div[2]/div');
     private readonly currentDateText = this.commonDateText.nth(0);
     private readonly nextDateText = this.commonDateText.nth(1);
+    private readonly chooseOtherClinicButton = this.bookAppoinmentWidget.getByText('Choose Another Clinic');
 
     constructor(readonly page: Page) { }
 
@@ -30,12 +27,10 @@ export class ClinicDetailsPage {
     async showAllSlots() {
         const count = await this.allFreeSlots.count();
         console.log("count = " + count);
-
         let slots = await this.allFreeSlots.allTextContents();
 
-        for (let i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++)
             console.log(slots[i]);
-        }
     }
 
     async getRandomFreeSlotAndClick() {
@@ -69,6 +64,10 @@ export class ClinicDetailsPage {
     async clickCoughButton() {
         await this.coughButton.click();
         await wait(500);
+    }
+
+    async clickChooseOtherClinicButton() {
+        await this.chooseOtherClinicButton.click();
     }
 }
 
